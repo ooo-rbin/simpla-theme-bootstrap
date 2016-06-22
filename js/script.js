@@ -4,41 +4,17 @@
  */
 (function ($) {
 	$(function($) {
-		var w = $(window);
-		// Кнопки поделиться
-		(function() {
-			if (window.pluso) {
-				if (typeof window.pluso.start == "function") {
-					return;
-				}
-			}
-			if (window.ifpluso == undefined) {
-				window.ifpluso = 1;
-				var d = document;
-				var s = d.createElement('script');
-				var g = 'getElementsByTagName';
-				s.type = 'text/javascript';
-				s.charset = 'UTF-8';
-				s.async = true;
-				s.src = ('https:' == window.location.protocol ? 'https' : 'http')  + '://share.pluso.ru/pluso-like.js';
-				var h = d[g]('body')[0];
-				h.appendChild(s);
-			}
-		})();
-		// Слайдер
-		if (w.innerWidth() >= 768) {
-			setTimeout(function () {
-				var carousel_h = 0;
-				$('#slider .carousel-inner>.item').each(function () {
-					carousel_h = Math.max(carousel_h, $(this).outerHeight());
-				}).css({'height': Math.floor(carousel_h).toString() + 'px'});
-				$('#slider').addClass('carousel').carousel();
-			}, 500);
-		}
-		// Галереи
-		$('*[data-toggle="lightbox"]').click(function (event) {
+		// Переключатель
+		$('.toggle').click(function (event) {
 			event.preventDefault();
-			$(this).ekkoLightbox();
+			var self = $(this);
+			var target = $('#' + self.attr('for'));
+			var value = target.attr('data-value');
+			target.attr('data-value', target.val());
+			if (value) target.val(value);
+			self.toggleClass((self.data('toggle-class')) ? self.data('toggle-class') : 'up');
+			target.toggleClass((self.data('togglet-class')) ? self.data('togglet-class') : 'up');
+			return false;
 		});
 		// Слайдер выбора цены
 		$('#filter_cost').each(function () {
@@ -134,29 +110,6 @@
 				});
 			});
 		});
-		// Переключатель
-		$('.toggle').click(function (event) {
-			event.preventDefault();
-			var self = $(this);
-			var target = $('#' + self.attr('for'));
-			var value = target.attr('data-value');
-			target.attr('data-value', target.val());
-			if (value) target.val(value);
-			self.toggleClass((self.data('toggle-class')) ? self.data('toggle-class') : 'up');
-			target.toggleClass((self.data('togglet-class')) ? self.data('togglet-class') : 'up');
-			return false;
-		});
-		// Вкунтакт
-		setTimeout(function () {
-			VK.Widgets.Group('vk_groups', {
-				mode: 0,
-				width: Math.floor($('#catalog').outerWidth()).toString(),
-				height: '300',
-				color1: 'FFFFFF',
-				color2: '2B587A',
-				color3: '5B7FA6'
-			}, 55104130);
-		}, 500);
 		// Ввод купона
 		$('#coupon_code').keypress(function(event) {
 			if(13 == event.keyCode) {
@@ -165,23 +118,6 @@
 				document.cart.submit();
 			}
 		});
-		// Плавающее меню
-		(function () {
-			var float = $('#float');
-			var nav = $('#nav');
-			var top = float.offset().top;
-			var height = float.height().toString() + 'px';
-			w.scroll(function (event) {
-				if (w.scrollTop() > top) {
-					nav.css({'height': height});
-					float.addClass('fly');
-				} else {
-					nav.css({'height': 'auto'});
-					float.removeClass('fly');
-				}
-			});
-			w.scroll();
-		})();
 		// Аяксовая корзина
 		(function () {
 			var timeout = false;

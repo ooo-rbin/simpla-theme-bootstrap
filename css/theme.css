@@ -1,4 +1,11 @@
 /**
  * Стиль темы
  * @require theme.less.css
+ * @require layout/widget-catalog.css
  */
+
+.toggle:not(.up) > .toggle-show,
+.togglet:not(.up),
+.toggle.up > .toggle-hidden {
+	display: none;
+}
